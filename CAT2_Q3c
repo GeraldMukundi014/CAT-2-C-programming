@@ -1,0 +1,49 @@
+#include <stdio.h>
+
+int main() {
+    float hoursWorked, hourlyWage, grossPay, taxes, netPay;
+    float regularHours = 40.0;
+    float overtimeRate = 1.5;
+    float taxRate1 = 0.15;  // 15% for the first $600
+    float taxRate2 = 0.20;  // 20% for the rest
+    float taxThreshold = 600.0;
+    
+    // Request user input
+    printf("Enter the number of hours worked in a week: ");
+    scanf("%f", &hoursWorked);
+    
+    printf("Enter your hourly wage: ");
+    scanf("%f", &hourlyWage);
+
+    // Calculate gross pay
+    if (hoursWorked > regularHours) {
+        // Calculate overtime
+        float regularPay = regularHours * hourlyWage;
+        float overtimeHours = hoursWorked - regularHours;
+        float overtimePay = overtimeHours * hourlyWage * overtimeRate;
+        grossPay = regularPay + overtimePay;
+    } else {
+        // No overtime, just regular hours
+        grossPay = hoursWorked * hourlyWage;
+    }
+
+    // Calculate taxes
+    if (grossPay <= taxThreshold) {
+        taxes = grossPay * taxRate1;  // 15% tax for earnings up to $600
+    } else {
+        float taxedAtFirstRate = taxThreshold * taxRate1;
+        float taxedAtSecondRate = (grossPay - taxThreshold) * taxRate2;
+        taxes = taxedAtFirstRate + taxedAtSecondRate;
+    }
+
+    // Calculate net pay
+    netPay = grossPay - taxes;
+
+    // Output results
+    printf("\n--- Payroll Information ---\n");
+    printf("Gross pay: $%.2f\n", grossPay);
+    printf("Taxes: $%.2f\n", taxes);
+    printf("Net pay: $%.2f\n", netPay);
+
+    return 0;
+}
